@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: quota-orchestrator-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: quota_orchestrator
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  app:
+    build: .
+    container_name: quota-orchestrator-app
+    restart: unless-stopped
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/quota_orchestrator
+      ADMIN_USERNAME: admin
+      ADMIN_PASSWORD: change-me
+      ENCRYPTION_KEY: your-32-character-encryption-key-here
+      JWT_SECRET: your-jwt-secret-key-here
+      SESSION_TTL_SECONDS: "43200"
+      PORT: 3000
+      SMTP_HOST: smtp.gmail.com
+      SMTP_PORT: "587"
+      SMTP_USER: your-email@gmail.com
+      SMTP_PASSWORD: your-app-password
+      SMTP_FROM: Quota Orchestrator <noreply@example.com>
+    ports:
+      - "3000:3000"
+
+volumes:
+  postgres_data:

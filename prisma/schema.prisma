@@ -1,0 +1,146 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id        String   @id @default(cuid())
+  username  String   @unique
+  password  String
+  email     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  providerConfigs ProviderConfig[]
+  sessions       Session[]
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+  
+  @@index([token])
+}
+
+model ProviderConfig {
+  id           String   @id @default(cuid())
+  provider     String
+  accountId    String
+  apiToken     String
+  extra        String?
+  userId       String?
+  user         User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  
+  usageSnapshots UsageSnapshot[]
+  quotaRules    QuotaRule[]
+  serviceControls ServiceControl[]
+  
+  @@unique([provider, accountId, userId])
+  @@index([provider])
+  @@index([userId])
+}
+
+model UsageSnapshot {
+  id          String   @id @default(cuid())
+  provider    String
+  accountId   String
+  configId    String
+  config      ProviderConfig @relation(fields: [configId], references: [id], onDelete: Cascade)
+  periodStart DateTime
+  periodEnd   DateTime
+  metrics     String
+  raw         String
+  createdAt   DateTime @default(now())
+  
+  @@index([configId])
+  @@index([createdAt])
+}
+
+model QuotaRule {
+  id            String   @id @default(cuid())
+  provider      String
+  accountId     String
+  configId      String
+  config        ProviderConfig @relation(fields: [configId], references: [id], onDelete: Cascade)
+  metricName    String
+  limitValue    Float
+  warningThreshold Float
+  criticalThreshold Float
+  stopThreshold Float
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  @@unique([configId, metricName])
+  @@index([configId])
+}
+
+model Alert {
+  id          String   @id @default(cuid())
+  provider     String
+  accountId    String
+  configId     String
+  metricName   String
+  currentValue Float
+  threshold    Float
+  level        String
+  message      String
+  sentAt       DateTime @default(now())
+  
+  @@index([configId])
+  @@index([sentAt])
+}
+
+model ServiceControl {
+  id          String   @id @default(cuid())
+  provider     String
+  accountId    String
+  configId     String
+  config      ProviderConfig @relation(fields: [configId], references: [id], onDelete: Cascade)
+  action      String
+  reason      String
+  executedAt  DateTime @default(now())
+  executedBy  String
+  scheduledAt DateTime?
+  
+  @@index([configId])
+  @@index([executedAt])
+}
+
+model ScheduledRecovery {
+  id          String   @id @default(cuid())
+  provider     String
+  accountId    String
+  configId     String
+  scheduledFor DateTime
+  status      String
+  createdAt   DateTime @default(now())
+  executedAt  DateTime?
+  
+  @@index([configId])
+  @@index([scheduledFor])
+}
+
+model SmtpConfig {
+  id          String   @id @default(cuid())
+  userId      String
+  host        String
+  port        Int
+  user        String
+  password    String
+  from        String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@unique([userId])
+  @@index([userId])
+}
