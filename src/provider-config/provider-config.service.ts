@@ -18,13 +18,13 @@ export class ProviderConfigService {
 
   async create(userId: string, dto: CreateProviderConfigDto) {
     const encryptedToken = this.encryption.encrypt(dto.apiToken);
-
+    const extra = dto.extra ? JSON.stringify(dto.extra) : undefined;
     return this.prisma.providerConfig.create({
       data: {
         provider: dto.provider as any,
         accountId: dto.accountId,
         apiToken: encryptedToken,
-        extra: dto.extra,
+        extra: extra,
         userId,
       },
     });

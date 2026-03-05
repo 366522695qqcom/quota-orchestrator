@@ -16,7 +16,7 @@ export class AuthGuard implements CanActivate {
     private auth: AuthService,
   ) {}
 
-  canActivate(context: ExecutionContext): boolean {
+  async canActivate(context: ExecutionContext): Promise<boolean> {
     const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
       context.getHandler(),
       context.getClass(),
@@ -25,7 +25,7 @@ export class AuthGuard implements CanActivate {
     const req = context.switchToHttp().getRequest();
     const token = bearerFromHeader(req?.headers?.authorization);
     if (!token) return false;
-    const session = this.auth.getSession(token);
+    const session = await this.auth.getSession(token);
     if (!session) return false;
     req.user = { username: session.username };
     return true;

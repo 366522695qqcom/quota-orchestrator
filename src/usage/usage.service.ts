@@ -4,6 +4,7 @@ import {
   UsageProviderConfig,
   UsageSnapshot,
   ProviderType,
+  UsageProvider,
 } from './usage.provider';
 import { VercelUsageProvider } from './providers/vercel-usage.provider';
 import { CloudflareUsageProvider } from './providers/cloudflare-usage.provider';
