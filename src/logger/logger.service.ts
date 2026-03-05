@@ -1,6 +1,7 @@
 import { Injectable, LoggerService as NestLoggerService } from '@nestjs/common';
 import * as winston from 'winston';
-import DailyRotateFile from 'winston-daily-rotate-file';
+
+const isVercel = process.env.VERCEL === '1' || process.env.AWS_LAMBDA_FUNCTION_NAME !== undefined;
 
 @Injectable()
 export class LoggerService implements NestLoggerService {
@@ -9,41 +10,65 @@ export class LoggerService implements NestLoggerService {
   constructor() {
     const logDir = process.env.LOG_DIR || './logs';
 
-    this.logger = winston.createLogger({
-      level: process.env.LOG_LEVEL || 'info',
-      format: winston.format.combine(
-        winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
-        winston.format.errors({ stack: true }),
-        winston.format.splat(),
-        winston.format.json(),
-      ),
-      defaultMeta: { service: 'quota-orchestrator' },
-      transports: [
-        new winston.transports.Console({
-          format: winston.format.combine(
-            winston.format.colorize(),
-            winston.format.printf(({ level, message, timestamp, context }) => {
-              return `${timestamp} [${context}] ${level}: ${message}`;
-            }),
-          ),
-        }),
-        new DailyRotateFile({
-          dirname: logDir,
-          filename: 'application-%DATE%.log',
-          datePattern: 'YYYY-MM-DD',
-          maxSize: '20m',
-          maxFiles: '14d',
-        }),
-        new DailyRotateFile({
-          dirname: logDir,
-          filename: 'error-%DATE%.log',
-          datePattern: 'YYYY-MM-DD',
-          level: 'error',
-          maxSize: '20m',
-          maxFiles: '30d',
-        }),
-      ],
-    });
+    if (isVercel) {
+      this.logger = winston.createLogger({
+        level: process.env.LOG_LEVEL || 'info',
+        format: winston.format.combine(
+          winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+          winston.format.errors({ stack: true }),
+          winston.format.splat(),
+          winston.format.json(),
+        ),
+        defaultMeta: { service: 'quota-orchestrator' },
+        transports: [
+          new winston.transports.Console({
+            format: winston.format.combine(
+              winston.format.colorize(),
+              winston.format.printf(({ level, message, timestamp, context }) => {
+                return `${timestamp} [${context}] ${level}: ${message}`;
+              }),
+            ),
+          }),
+        ],
+      });
+    } else {
+      const DailyRotateFile = require('winston-daily-rotate-file');
+      this.logger = winston.createLogger({
+        level: process.env.LOG_LEVEL || 'info',
+        format: winston.format.combine(
+          winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+          winston.format.errors({ stack: true }),
+          winston.format.splat(),
+          winston.format.json(),
+        ),
+        defaultMeta: { service: 'quota-orchestrator' },
+        transports: [
+          new winston.transports.Console({
+            format: winston.format.combine(
+              winston.format.colorize(),
+              winston.format.printf(({ level, message, timestamp, context }) => {
+                return `${timestamp} [${context}] ${level}: ${message}`;
+              }),
+            ),
+          }),
+          new DailyRotateFile({
+            dirname: logDir,
+            filename: 'application-%DATE%.log',
+            datePattern: 'YYYY-MM-DD',
+            maxSize: '20m',
+            maxFiles: '14d',
+          }),
+          new DailyRotateFile({
+            dirname: logDir,
+            filename: 'error-%DATE%.log',
+            datePattern: 'YYYY-MM-DD',
+            level: 'error',
+            maxSize: '20m',
+            maxFiles: '30d',
+          }),
+        ],
+      });
+    }
   }
 
   log(message: any, context?: string) {
