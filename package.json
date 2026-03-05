@@ -4,7 +4,7 @@
   "description": "Aggregate free quotas across deployment platforms and automatically stop services when limits are reached.",
   "main": "dist/main.js",
   "scripts": {
-    "build": "tsc -p tsconfig.json",
+    "build": "prisma generate && tsc -p tsconfig.json",
     "start": "node dist/main.js",
     "start:dev": "ts-node-dev --respawn --transpile-only src/main.ts",
     "prisma:generate": "prisma generate",
