@@ -11,6 +11,7 @@ import { ProviderConfigModule } from '../provider-config/provider-config.module'
 import { QuotaEngineModule } from '../quota-engine/quota-engine.module';
 import { ServiceControlModule } from '../service-control/service-control.module';
 import { LoggerModule } from '../logger/logger.module';
+import { RetryService } from '../retry/retry.service';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { LoggerModule } from '../logger/logger.module';
     CloudflareUsageProvider,
     NetlifyUsageProvider,
     RenderUsageProvider,
+    RetryService,
   ],
   controllers: [UsageController],
   exports: [UsageService],
