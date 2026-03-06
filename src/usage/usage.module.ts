@@ -10,6 +10,7 @@ import { DatabaseModule } from '../database/database.module';
 import { ProviderConfigModule } from '../provider-config/provider-config.module';
 import { QuotaEngineModule } from '../quota-engine/quota-engine.module';
 import { ServiceControlModule } from '../service-control/service-control.module';
+import { LoggerModule } from '../logger/logger.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { ServiceControlModule } from '../service-control/service-control.module'
     ProviderConfigModule,
     QuotaEngineModule,
     ServiceControlModule,
+    LoggerModule,
   ],
   providers: [
     UsageService,
