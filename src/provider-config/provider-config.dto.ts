@@ -21,8 +21,8 @@ export class CreateProviderConfigDto {
   apiToken: string = '';
 
   @IsOptional()
-  @IsObject()
-  extra?: Record<string, any> = {};
+  @IsString()
+  extra?: string = '{}';
 }
 
 export class UpdateProviderConfigDto {
@@ -31,8 +31,8 @@ export class UpdateProviderConfigDto {
   apiToken?: string = undefined;
 
   @IsOptional()
-  @IsObject()
-  extra?: Record<string, any> = undefined;
+  @IsString()
+  extra?: string = undefined;
 }
 
 export class QuotaRuleDto {

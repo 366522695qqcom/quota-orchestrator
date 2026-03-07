@@ -9,10 +9,11 @@ export class EncryptionService {
 
   constructor() {
     const encryptionKey = process.env.ENCRYPTION_KEY;
-    if (!encryptionKey || encryptionKey.length !== 32) {
-      throw new Error(
-        'ENCRYPTION_KEY must be set and be exactly 32 characters long',
-      );
+    if (!encryptionKey) {
+      throw new Error('ENCRYPTION_KEY must be set');
+    }
+    if (encryptionKey.length !== 32) {
+      throw new Error('ENCRYPTION_KEY must be exactly 32 characters long');
     }
     this.key = Buffer.from(encryptionKey, 'utf8');
   }

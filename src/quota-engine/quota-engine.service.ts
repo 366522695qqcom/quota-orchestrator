@@ -79,7 +79,6 @@ export class QuotaEngineService {
     }
 
     const hasStopAlert = alerts.some((alert) => alert.level === 'STOPPED');
-
     if (hasStopAlert) {
       try {
         await this.mailService.sendAlert(config.userId, {
