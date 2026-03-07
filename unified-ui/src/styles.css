@@ -1,0 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background-primary: #1e293b;
+  --foreground-primary: #ffffff;
+  --background-secondary: #1e3a8a;
+  --foreground-secondary: #ffffff;
+  --background-accent: #6366f1;
+  --foreground-accent: #ffffff;
+  --background-success: #10b981;
+  --foreground-success: #ffffff;
+  --background-warning: #f59e0b;
+  --foreground-warning: #ffffff;
+  --background-danger: #ef4444;
+  --foreground-danger: #ffffff;
+  --background-muted: #1e293b;
+  --foreground-muted: #ffffff;
+  --border-color: #2d3748;
+  --input-background: #ffffff;
+  --input-border: #2d3748;
+  --card-background: #1e3a8a;
+  --card-foreground: #ffffff;
+}
+
+@layer base {
+  @apply bg-background-primary text-foreground-primary;
+}
+
+* {
+  @apply border-border-color;
+}
+
+body {
+  @apply antialiased;
+}
+
+@layer utilities {
+  .text-balance {
+    @apply text-foreground-accent font-semibold;
+  }
+  
+  .text-gradient {
+    @apply bg-gradient-to-r from-foreground-accent to-foreground-primary bg-clip-text text-transparent bg-clip-text;
+  }
+}
