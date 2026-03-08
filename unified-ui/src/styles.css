@@ -3,45 +3,75 @@
 @tailwind utilities;
 
 :root {
-  --background-primary: #1e293b;
-  --foreground-primary: #ffffff;
-  --background-secondary: #1e3a8a;
-  --foreground-secondary: #ffffff;
-  --background-accent: #6366f1;
-  --foreground-accent: #ffffff;
-  --background-success: #10b981;
-  --foreground-success: #ffffff;
-  --background-warning: #f59e0b;
-  --foreground-warning: #ffffff;
-  --background-danger: #ef4444;
-  --foreground-danger: #ffffff;
-  --background-muted: #1e293b;
-  --foreground-muted: #ffffff;
-  --border-color: #2d3748;
-  --input-background: #ffffff;
-  --input-border: #2d3748;
-  --card-background: #1e3a8a;
-  --card-foreground: #ffffff;
+  --background-primary: #f8fafc;
+  --background-secondary: #f1f5f9;
+  --background-muted: #e2e8f0;
+  --card-background: #ffffff;
+  --border-color: #e2e8f0;
+  --foreground-primary: #1e293b;
+  --foreground-secondary: #64748b;
+  --foreground-accent: #3b82f6;
+  --accent: #3b82f6;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
 }
 
-@layer base {
-  @apply bg-background-primary text-foreground-primary;
-}
-
-* {
-  @apply border-border-color;
+.dark {
+  --background-primary: #0f172a;
+  --background-secondary: #1e293b;
+  --background-muted: #334155;
+  --card-background: #1e293b;
+  --border-color: #334155;
+  --foreground-primary: #f8fafc;
+  --foreground-secondary: #cbd5e1;
+  --foreground-accent: #60a5fa;
 }
 
 body {
-  @apply antialiased;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--background-primary);
+  color: var(--foreground-primary);
 }
 
-@layer utilities {
-  .text-balance {
-    @apply text-foreground-accent font-semibold;
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/* 自定义滚动条 */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--background-muted);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--foreground-secondary);
+}
+
+/* 动画 */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
   }
-  
-  .text-gradient {
-    @apply bg-gradient-to-r from-foreground-accent to-foreground-primary bg-clip-text text-transparent bg-clip-text;
+  to {
+    transform: rotate(360deg);
   }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
 }

@@ -4,6 +4,7 @@ import { RequestMethod } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { join } from 'path';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -35,6 +36,15 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api/docs', app, document);
+
+  // 配置静态文件服务
+  const express = require('express');
+  app.use(express.static(join(__dirname, '..', 'unified-ui', 'dist')));
+
+  // 处理所有其他路由，返回前端 index.html
+  app.getHttpAdapter().get('*', (req, res) => {
+    res.sendFile(join(__dirname, '..', 'unified-ui', 'dist', 'index.html'));
+  });
 
   const port = process.env.PORT || 3000;
   await app.listen(port);

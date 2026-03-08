@@ -268,27 +268,29 @@ export default function Rules() {
               </div>
               
               <div className="grid grid-cols-2 gap-4 mt-4">
-                <div className="text-sm text-foreground-secondary">
-                  警告阈值
+                <div>
+                  <div className="text-sm text-foreground-secondary">
+                    警告阈值
+                  </div>
+                  <div className="text-2xl font-bold text-warning">
+                    {rule.warningThreshold}%
+                  </div>
                 </div>
-                <div className="text-2xl font-bold text-warning">
-                  {rule.warningThreshold}%
+                <div>
+                  <div className="text-sm text-foreground-secondary">
+                    严重阈值
+                  </div>
+                  <div className="text-2xl font-bold text-danger">
+                    {rule.criticalThreshold}%
+                  </div>
                 </div>
-              </div>
-              
-              <div className="text-sm text-foreground-secondary">
-                  严重阈值
-                </div>
-                <div className="text-2xl font-bold text-danger">
-                  {rule.criticalThreshold}%
-                </div>
-              </div>
-              
-              <div className="text-sm text-foreground-secondary">
-                  停止阈值
-                </div>
-                <div className="text-2xl font-bold text-foreground-primary">
-                  {rule.stopThreshold}%
+                <div>
+                  <div className="text-sm text-foreground-secondary">
+                    停止阈值
+                  </div>
+                  <div className="text-2xl font-bold text-foreground-primary">
+                    {rule.stopThreshold}%
+                  </div>
                 </div>
               </div>
             </div>

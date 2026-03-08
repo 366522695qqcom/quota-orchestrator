@@ -1,13 +1,12 @@
-import { useState, useEffect, createContext, useContext } from 'react';
+import { useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { LayoutDashboard, LayoutList, Home, Settings, Users, Database, Shield, Bell } from 'lucide-react';
-import Header from './components/Header';
-import Sidebar from './components/Sidebar';
-import { AuthProvider, useAuth } from './contexts/AuthContext';
-import './styles.css';
+import { LayoutDashboard, Shield, Activity } from 'lucide-react';
+import { Header } from './components/Header';
+import { Sidebar } from './components/Sidebar';
+import { useAuth } from './contexts/AuthContext';
 
 function App() {
-  const { user, isAuthenticated, login, logout } = useAuth();
+  const { isAuthenticated, login, logout } = useAuth();
   const [activeTab, setActiveTab] = useState('dashboard');
 
   const handleLogin = async (username: string, password: string) => {
@@ -15,7 +14,7 @@ function App() {
       await login(username, password);
     } catch (error) {
       console.error('Login failed:', error);
-      alert(error?.message || '登录失败，请检查用户名和密码');
+      alert('登录失败，请检查用户名和密码');
     }
   };
 
@@ -104,27 +103,28 @@ function Dashboard() {
               <p className="text-sm text-foreground-secondary">本月已使用 12.3 GB</p>
             </div>
           </div>
-          <div className="bg-card-background rounded-xl border border-border-color p-6">
-            <div className="flex items-center gap-4 mb-4">
-              <Activity className="h-8 w-8 text-accent" />
-              <div>
-                <h3 className="text-lg font-semibold text-foreground-primary">活跃Provider</h3>
-                <p className="text-2xl font-bold text-foreground-accent">3 / 5</p>
-              </div>
+        </div>
+        <div className="bg-card-background rounded-xl border border-border-color p-6">
+          <div className="flex items-center gap-4 mb-4">
+            <Activity className="h-8 w-8 text-accent" />
+            <div>
+              <h3 className="text-lg font-semibold text-foreground-primary">活跃Provider</h3>
+              <p className="text-2xl font-bold text-foreground-accent">3 / 5</p>
             </div>
           </div>
-          <div className="bg-card-background rounded-xl border border-border-color p-6">
-            <div className="flex items-center gap-4 mb-4">
-              <Shield className="h-8 w-8 text-success" />
-              <div>
-                <h3 className="text-lg font-semibold text-foreground-primary">系统状态</h3>
-                <p className="text-2xl font-bold text-success">正常</p>
-              </div>
+        </div>
+        <div className="bg-card-background rounded-xl border border-border-color p-6">
+          <div className="flex items-center gap-4 mb-4">
+            <Shield className="h-8 w-8 text-success" />
+            <div>
+              <h3 className="text-lg font-semibold text-foreground-primary">系统状态</h3>
+              <p className="text-2xl font-bold text-success">正常</p>
             </div>
           </div>
         </div>
       </div>
-    );
+    </div>
+  );
 }
 
 function Providers() {

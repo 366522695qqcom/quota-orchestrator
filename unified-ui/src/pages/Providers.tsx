@@ -16,8 +16,14 @@ export default function Providers() {
   const { isAuthenticated } = useAuth();
   const [configs, setConfigs] = useState<ProviderConfig[]>([]);
   const [showForm, setShowForm] = useState(false);
-  const [formData, setFormData] = useState({
-    provider: 'vercel' as const,
+  const [formData, setFormData] = useState<{
+    provider: 'vercel' | 'cloudflare' | 'netlify' | 'render';
+    accountId: string;
+    apiToken: string;
+    accountSlug: string;
+    accountTag: string;
+  }>({
+    provider: 'vercel',
     accountId: '',
     apiToken: '',
     accountSlug: '',

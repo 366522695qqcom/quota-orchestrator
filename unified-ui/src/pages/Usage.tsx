@@ -196,6 +196,7 @@ export default function Usage() {
                   </div>
                 ))}
               </div>
+            </div>
           )}
         </div>
       )}

@@ -207,7 +207,8 @@ export default function Settings() {
                 {testResult}
               </div>
             </div>
-          )}
+          </div>
+        )}
       </form>
     </div>
   );

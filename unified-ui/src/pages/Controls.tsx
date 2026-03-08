@@ -38,7 +38,7 @@ export default function Controls() {
   };
 
   const handleAction = async (action: 'STOP' | 'START' | 'RESTART') => {
-    if (!confirm(`确定要${action === 'STOP' ? '停止' : action === 'START' ? '启动'}服务吗？`)) return;
+    if (!confirm(`确定要${action === 'STOP' ? '停止' : action === 'START' ? '启动' : '重启'}服务吗？`)) return;
     
     setExecuting(action);
     try {
@@ -56,7 +56,7 @@ export default function Controls() {
       });
       if (!response.ok) throw new Error('Failed to execute action');
       await loadServices();
-      alert(`服务${action === 'STOP' ? '停止' : action === 'START' ? '启动'}成功`);
+      alert(`服务${action === 'STOP' ? '停止' : action === 'START' ? '启动' : '重启'}成功`);
     } catch (error) {
       console.error('Failed to execute action:', error);
       alert(`操作失败：${error?.message || '未知错误'}`);

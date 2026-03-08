@@ -1,5 +1,4 @@
-import React from 'react';
-import { LayoutList, LayoutListIcon, LayoutGrid, Home, Settings, Users, Database, Shield, Bell } from 'lucide-react';
+import { LayoutList, Home, Settings, Database, Shield, Bell, LayoutDashboard, Activity, LayoutGrid } from 'lucide-react';
 
 interface SidebarProps {
   activeTab: string;
