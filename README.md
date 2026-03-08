@@ -19,6 +19,7 @@
 - ✅ **数据可视化**：使用量趋势图表
 - ✅ **RBAC 权限**：基于角色的访问控制（ADMIN/USER/VIEWER）
 - ✅ **数据库备份**：自动备份和恢复功能
+- ✅ **网络分析**：Vercel Analytics 流量分析
 
 ## 技术栈
 
@@ -36,6 +37,7 @@
 - Vite 5.x
 - Tailwind CSS 3.x
 - TypeScript
+- Vercel Analytics
 
 ## 快速开始
 
