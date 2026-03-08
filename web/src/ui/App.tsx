@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import { UsageChart } from './UsageChart';
 
 type ProviderType = 'vercel' | 'cloudflare' | 'netlify' | 'render';
@@ -1113,6 +1114,7 @@ export function App() {
           </div>
         )}
       </div>
+      <SpeedInsights />
     </div>
   );
 }
